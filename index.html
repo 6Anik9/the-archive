@@ -3,100 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANiK | The Premium Archive</title>
+    <title>ANiK | Executive Archive</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;700&family=Space+Grotesk:wght@300;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;600&family=Inter:wght@200;400;600&display=swap');
         
         :root { 
-            --accent: #111111; 
-            --bg: #fcfcfc; 
-            --soft-gray: #f5f5f5;
+            --bg: #f4f4f2; /* Platinum White/Off-white */
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --accent: #1a1a1a;
         }
         
         body { 
             background-color: var(--bg); 
             color: var(--accent); 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            overflow-x: hidden; 
+            font-family: 'Inter', sans-serif; 
+            letter-spacing: -0.01em;
         }
         
-        /* Luxurious Loader */
+        /* Smooth Entrance */
         #welcome-screen { 
-            position: fixed; inset: 0; background: #ffffff; z-index: 999; 
+            position: fixed; inset: 0; background: var(--bg); z-index: 999; 
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1); 
         }
-        .loader-line { width: 0%; height: 1px; background: var(--accent); transition: width 2s ease-in-out; }
-        
-        #main-content { opacity: 0; transition: opacity 1.2s ease-in; }
+        .loader-line { width: 0%; height: 1px; background: #000; transition: width 2s ease; }
+        #main-content { opacity: 0; transition: opacity 1.5s ease; }
 
-        /* Premium Card Design */
+        /* Luxurious Card Layout */
         .tech-card { 
-            background: #ffffff; 
-            border: 1px solid #eeeeee;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            background: var(--card-bg); 
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,0,0,0.03);
+            padding: 20px;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .tech-card:hover { 
-            border-color: #000; 
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.05);
+            background: #ffffff;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.06);
+            transform: translateY(-5px);
         }
         
-        /* Image Display (No Cropping) */
+        /* Professional Image Frame */
         .img-container { 
-            position: relative; width: 100%; height: 350px; 
-            background: var(--soft-gray); overflow: hidden;
+            width: 100%; height: 400px; 
+            background: #ebebe9; 
             display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+            position: relative;
         }
         .img-container img { 
-            max-width: 100%; max-height: 100%; 
-            object-fit: contain; 
-            transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+            max-width: 95%; max-height: 95%; 
+            object-fit: contain;
+            filter: grayscale(20%); /* Adds a professional editorial look */
+            transition: 0.8s ease;
         }
-        .tech-card:hover img { transform: scale(1.03); }
+        .tech-card:hover img { filter: grayscale(0%); transform: scale(1.02); }
 
-        /* Typography & Utility */
-        .luxury-text { letter-spacing: 0.3em; text-transform: uppercase; font-size: 10px; color: #888; }
-        .nav-link { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; transition: 0.3s; }
-        .nav-link:hover { opacity: 0.5; }
+        /* Minimal Copy Interface */
+        .prompt-area {
+            position: relative;
+            background: rgba(0,0,0,0.02);
+            padding: 30px;
+            margin-top: 25px;
+            border-radius: 2px;
+        }
+        .copy-trigger {
+            position: absolute; top: 15px; right: 15px;
+            font-size: 12px; color: #aaa; cursor: pointer;
+            transition: 0.3s; text-transform: uppercase; letter-spacing: 0.1em;
+        }
+        .copy-trigger:hover { color: #000; }
 
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #f5f5f5; }
+        .editorial-title { font-family: 'Cormorant Garamond', serif; }
+        .label-text { font-size: 9px; text-transform: uppercase; letter-spacing: 0.4em; color: #999; }
+        
+        ::-webkit-scrollbar { width: 2px; }
         ::-webkit-scrollbar-thumb { background: #000; }
     </style>
 </head>
 <body>
 
     <div id="welcome-screen">
-        <div class="mb-6 luxury-text animate-pulse">Establishing Connection</div>
-        <div class="w-48 bg-zinc-100 h-[1px] overflow-hidden"><div id="loader-bar" class="loader-line"></div></div>
+        <p class="label-text mb-4">Establishing Secure Connection</p>
+        <div class="w-40 h-[1px] bg-zinc-200"><div id="loader-bar" class="loader-line"></div></div>
     </div>
 
     <div id="main-content">
-        <nav class="p-10 flex justify-between items-center max-w-7xl mx-auto border-b border-zinc-100 relative z-10">
-            <h1 class="text-lg font-bold tracking-[0.5em] uppercase">ANiK</h1>
-            <div id="data-status" class="luxury-text">Archive v2.0 // Online</div>
+        <nav class="py-12 px-10 flex justify-between items-center max-w-[1600px] mx-auto">
+            <h1 class="text-sm font-bold tracking-[0.6em] uppercase">ANiK</h1>
+            <span class="label-text">Database System 4.0</span>
         </nav>
 
-        <header class="py-32 px-8 text-center relative z-10">
-            <p class="luxury-text mb-6">Curated Visual Intelligence</p>
-            <h2 class="text-7xl md:text-9xl font-extralight tracking-tighter uppercase mb-4 leading-none text-zinc-900">
-                The <span class="italic font-serif">Archive.</span>
+        <header class="py-24 text-center">
+            <h2 class="text-6xl md:text-8xl editorial-title font-light tracking-tight mb-4">
+                The <span class="italic">Archive.</span>
             </h2>
+            <div class="h-[1px] w-20 bg-black mx-auto mb-6 opacity-20"></div>
+            <p class="label-text text-zinc-400">Curated by MD ANiK SHEiKH</p>
         </header>
 
-        <main id="main-grid" class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 pb-40 relative z-10">
+        <main id="main-grid" class="max-w-[1600px] mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 pb-40">
             </main>
 
-        <footer class="border-t border-zinc-100 py-32 text-center relative z-10 bg-zinc-50">
-            <div class="flex justify-center gap-12 mb-10">
-                <a href="https://github.com/6anik9" target="_blank" class="nav-link">GITHUB</a>
-                <a href="https://instagram.com/6mdaniksheikh9" target="_blank" class="nav-link">INSTAGRAM</a>
-            </div>
-            <p class="luxury-text">© 2026 MD ANiK SHEiKH. All Rights Reserved.</p>
+        <footer class="py-20 border-t border-zinc-200 text-center">
+            <p class="label-text">© 2026 Limited Edition Visuals</p>
         </footer>
     </div>
 
@@ -110,14 +122,14 @@
 
         async function fetchData() {
             Papa.parse(SHEET_URL, {
-                download: true,
-                header: true,
-                skipEmptyLines: true,
+                download: true, header: true, skipEmptyLines: true,
                 complete: (results) => {
-                    if(results.data && results.data.length > 0) {
-                        renderCards(results.data);
-                        setTimeout(revealSite, 1200);
-                    }
+                    renderCards(results.data);
+                    setTimeout(() => {
+                        document.getElementById('welcome-screen').style.opacity = '0';
+                        document.getElementById('main-content').style.opacity = '1';
+                        setTimeout(() => document.getElementById('welcome-screen').remove(), 1000);
+                    }, 1500);
                 }
             });
         }
@@ -125,50 +137,41 @@
         function renderCards(data) {
             const grid = document.getElementById('main-grid');
             grid.innerHTML = data.map((item, i) => {
-                const title = item.Title || item.TITLE || "Subject_" + (i+1);
-                const img = item.ImageURL || item.IMAGEURL || "https://via.placeholder.com/800";
-                const prompt = item.Prompt || "No data.";
-                const category = item.Category || "Studio";
+                const title = item.Title || "Untitled_Work";
+                const img = item.ImageURL || "https://via.placeholder.com/800";
+                const prompt = item.Prompt || "";
+                const cat = item.Category || "Archive";
 
-                if(!item.Title && !item.Prompt) return '';
+                if(!item.Title) return '';
 
                 return `
-                <div class="tech-card group">
+                <div class="tech-card">
                     <div class="img-container">
                         <img src="${img}" alt="${title}" referrerpolicy="no-referrer">
                     </div>
-                    <div class="p-10">
-                        <div class="flex justify-between items-center mb-6">
-                            <span class="luxury-text text-zinc-400">${category}</span>
-                            <span class="luxury-text text-zinc-300">#${i+1}</span>
+                    <div class="pt-10 pb-4">
+                        <div class="flex justify-between mb-4">
+                            <span class="label-text">${cat}</span>
+                            <span class="label-text">0${i+1}</span>
                         </div>
-                        <h3 class="text-2xl font-light tracking-tight mb-6 uppercase text-zinc-800 group-hover:tracking-[0.1em] transition-all duration-500">${title}</h3>
-                        <div class="bg-zinc-50 p-6 text-[12px] text-zinc-500 font-light italic mb-8 border-l border-zinc-200 leading-relaxed">
-                            "${prompt}"
+                        <h3 class="text-3xl editorial-title font-semibold mb-6 tracking-wide">${title}</h3>
+                        <div class="prompt-area">
+                            <span class="copy-trigger" onclick="copyPrompt(this, \`${prompt.replace(/`/g, '\\`').replace(/'/g, "\\'")}\`)">Copy Data</span>
+                            <p class="text-[11px] leading-relaxed text-zinc-500 font-light italic">"${prompt}"</p>
                         </div>
-                        <button onclick="copyPrompt(this, \`${prompt.replace(/`/g, '\\`')}\`)" 
-                                class="w-full py-4 bg-zinc-900 text-white text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-zinc-700 transition-all">
-                            COPY ACCESS
-                        </button>
                     </div>
                 </div>`;
             }).join('');
         }
 
-        function revealSite() {
-            document.getElementById('welcome-screen').style.opacity = '0';
-            document.getElementById('main-content').style.opacity = '1';
-            setTimeout(() => document.getElementById('welcome-screen').remove(), 1000);
-        }
-
-        function copyPrompt(btn, text) {
+        function copyPrompt(el, text) {
             navigator.clipboard.writeText(text).then(() => {
-                const original = btn.innerText;
-                btn.innerText = "COPIED TO CLIPBOARD";
-                btn.style.backgroundColor = "#000";
+                const original = el.innerText;
+                el.innerText = "Copied ✓";
+                el.style.color = "#000";
                 setTimeout(() => {
-                    btn.innerText = original;
-                    btn.style.backgroundColor = "";
+                    el.innerText = original;
+                    el.style.color = "#aaa";
                 }, 2000);
             });
         }
