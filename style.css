@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;600&family=Inter:wght@200;400;600&display=swap');
+
+:root {
+    --bg: #f8f8f6;
+    --card-bg: #ffffff;
+    --accent: #111111;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Loader */
+#welcome-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader-line {
+    width: 0%;
+    height: 1px;
+    background: #000;
+    transition: width 2s ease;
+}
+
+#main-content {
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+/* Enhance Button */
+.enhance-btn {
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    color: #999;
+    font-size: 14px;
+}
+
+.enhance-btn:hover {
+    color: #000;
+    transform: scale(1.1);
+}
+
+/* Modal / Pop-up */
+#enhance-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(248, 248, 246, 0.99);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#enhance-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-box {
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 40px;
+}
+
+.instruction-step {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: #aaa;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+.active .instruction-step {
+    animation: fadeInUp 0.6s forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Boom Animation */
+#boom-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-style: italic;
+    display: none;
+    opacity: 0;
+    transform: scale(1.1) translateY(10px);
+    filter: blur(10px);
+    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    color: #111;
+}
+
+#boom-text.show {
+    display: block;
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+}
+
+/* Grid & Tech Cards */
+.tech-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(0,0,0,0.04);
+    padding: 24px;
+    transition: 0.5s;
+}
+
+.img-container {
+    width: 100%;
+    height: 420px;
+    background: #f0f0ee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.img-container img {
+    max-width: 92%;
+    max-height: 92%;
+    object-fit: contain;
+    transition: 0.8s;
+}
+
+.tech-card:hover img {
+    transform: scale(1.05);
+}
+
+.prompt-area {
+    position: relative;
+    background: #fcfcfb;
+    padding: 25px;
+    margin-top: 20px;
+    border: 1px solid #f0f0ee;
+}
+
+.copy-icon-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 16px;
+    color: #bbb;
+    cursor: pointer;
+}
+
+/* Footer Icons */
+.footer-social-icon {
+    font-size: 18px;
+    color: #999;
+    transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-social-icon:hover {
+    color: #000;
+    transform: translateY(-3px);
+}
+
+.editorial-title {
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.label-text {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: #999;
+}
