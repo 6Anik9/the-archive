@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANiK | Premium Archive</title>
+    <title>ANiK | Executive Archive</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -17,6 +17,18 @@
         .loader-line { width: 0%; height: 1px; background: #000; transition: width 2s ease; }
         #main-content { opacity: 0; transition: opacity 1.5s ease; }
 
+        /* Navigation Logo Style */
+        .logo-box {
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid #111;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600; font-size: 16px;
+            transition: 0.4s; cursor: pointer;
+        }
+        .logo-box:hover { background: #111; color: #fff; transform: rotate(45deg); }
+        .logo-box:hover span { transform: rotate(-45deg); }
+
         .tech-card { background: var(--card-bg); border: 1px solid rgba(0,0,0,0.04); padding: 24px; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .tech-card:hover { transform: translateY(-8px); box-shadow: 0 40px 70px rgba(0,0,0,0.05); }
         
@@ -24,8 +36,6 @@
         .img-container img { max-width: 92%; max-height: 92%; object-fit: contain; }
 
         .prompt-area { position: relative; background: #fcfcfb; padding: 25px; margin-top: 20px; border: 1px solid #f0f0ee; min-height: 80px; }
-        
-        /* Copy Icon */
         .copy-icon-btn { position: absolute; top: 15px; right: 15px; font-size: 16px; color: #bbb; cursor: pointer; transition: 0.3s; z-index: 10; }
         .copy-icon-btn:hover { color: #000; }
         .copy-icon-btn.copied { color: #27ae60 !important; }
@@ -44,13 +54,16 @@
     </div>
 
     <div id="main-content">
-        <nav class="py-12 px-10 flex justify-between items-center max-w-[1500px] mx-auto">
-            <h1 class="text-sm font-bold tracking-[0.8em] uppercase">ANiK</h1>
+        <nav class="py-12 px-10 flex justify-between items-center max-w-[1500px] mx-auto border-b border-zinc-100">
+            <div class="flex items-center gap-4">
+                <div class="logo-box"><span>TA</span></div>
+                <h1 class="text-sm font-bold tracking-[0.5em] uppercase hidden md:block">ANiK</h1>
+            </div>
             <span class="label-text">SYS_V4.0 // ONLINE</span>
         </nav>
 
         <header class="py-24 text-center">
-            <h2 class="text-7xl md:text-9xl editorial-title font-light tracking-tight mb-4 text-zinc-900">The <span class="italic">Archive.</span></h2>
+            <h2 class="text-7xl md:text-9xl editorial-title font-light tracking-tight mb-4 text-zinc-900">The <span class="italic text-zinc-400">Archive.</span></h2>
             <p class="label-text text-zinc-400 mt-6 tracking-[0.6em]">Curated Visual Intelligence</p>
         </header>
 
@@ -63,7 +76,7 @@
                 <a href="https://facebook.com" target="_blank" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
                 <a href="https://github.com/6anik9" target="_blank" class="social-link"><i class="fa-brands fa-github"></i></a>
             </div>
-            <p class="label-text mb-2">MD ANiK SHEiKH // PROMPT TERMINAL</p>
+            <p class="label-text mb-2 tracking-[0.4em]">MD ANiK SHEiKH // PROMPT TERMINAL</p>
             <p class="text-[9px] text-zinc-300 tracking-[0.2em]">© 2026 LIMITED EDITION VISUALS</p>
         </footer>
     </div>
@@ -110,9 +123,9 @@
                             <span class="label-text text-zinc-400">${cat}</span>
                             <span class="label-text">INDEX_0${i+1}</span>
                         </div>
-                        <h3 class="text-3xl editorial-title font-semibold mb-6 tracking-wide">${title}</h3>
+                        <h3 class="text-3xl editorial-title font-semibold mb-6 tracking-wide group-hover:tracking-wider transition-all duration-500">${title}</h3>
                         <div class="prompt-area">
-                            <i class="fa-regular fa-copy copy-icon-btn" onclick="fallbackCopyTextToClipboard('${prompt.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', this)"></i>
+                            <i class="fa-regular fa-copy copy-icon-btn" onclick="copyText('${prompt.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', this)"></i>
                             <p class="text-[11px] leading-relaxed text-zinc-400 font-light italic pr-8">"${prompt}"</p>
                         </div>
                     </div>
@@ -120,24 +133,18 @@
             }).join('');
         }
 
-        // কপি করার সবচেয়ে নির্ভরযোগ্য মেথড
-        function fallbackCopyTextToClipboard(text, icon) {
+        function copyText(text, icon) {
             const textArea = document.createElement("textarea");
             textArea.value = text;
             document.body.appendChild(textArea);
             textArea.select();
-            try {
-                document.execCommand('copy');
-                // সাকসেস হলে আইকন চেঞ্জ হবে
-                icon.classList.remove('fa-regular', 'fa-copy');
-                icon.classList.add('fa-solid', 'fa-check', 'copied');
-                setTimeout(() => {
-                    icon.classList.remove('fa-solid', 'fa-check', 'copied');
-                    icon.classList.add('fa-regular', 'fa-copy');
-                }, 2000);
-            } catch (err) {
-                console.error('Copy failed', err);
-            }
+            document.execCommand('copy');
+            icon.classList.remove('fa-regular', 'fa-copy');
+            icon.classList.add('fa-solid', 'fa-check', 'copied');
+            setTimeout(() => {
+                icon.classList.remove('fa-solid', 'fa-check', 'copied');
+                icon.classList.add('fa-regular', 'fa-copy');
+            }, 2000);
             document.body.removeChild(textArea);
         }
     </script>
