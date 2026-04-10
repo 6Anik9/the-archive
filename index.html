@@ -7,55 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;600&family=Inter:wght@200;400;600&display=swap');
-        
-        :root { --bg: #f8f8f6; --card-bg: #ffffff; --accent: #111111; }
-        body { background-color: var(--bg); color: var(--accent); font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        
-        #welcome-screen { position: fixed; inset: 0; background: var(--bg); z-index: 999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .loader-line { width: 0%; height: 1px; background: #000; transition: width 2s ease; }
-        #main-content { opacity: 0; transition: opacity 1.5s ease; }
-
-        /* Enhance Button Style */
-        .enhance-btn { cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; color: #999; font-size: 14px; }
-        .enhance-btn:hover { color: #000; transform: scale(1.1); }
-
-        /* Stylish Instruction Pop-up */
-        #enhance-modal {
-            position: fixed; inset: 0; background: rgba(248, 248, 246, 0.99);
-            z-index: 2000; display: none; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        #enhance-modal.active { display: flex; opacity: 1; }
-        .modal-box { text-align: center; width: 100%; max-width: 500px; padding: 40px; }
-        .instruction-step { font-size: 10px; text-transform: uppercase; letter-spacing: 0.3em; color: #aaa; margin-bottom: 20px; opacity: 0; transform: translateY(15px); }
-        .active .instruction-step { animation: fadeInUp 0.6s forwards; }
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-
-        #boom-text { 
-            font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-style: italic;
-            display: none; opacity: 0; transform: scale(1.1) translateY(10px); filter: blur(10px);
-            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); color: #111;
-        }
-        #boom-text.show { display: block; opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
-
-        /* Grid & Cards */
-        .tech-card { background: var(--card-bg); border: 1px solid rgba(0,0,0,0.04); padding: 24px; transition: 0.5s; }
-        .img-container { width: 100%; height: 420px; background: #f0f0ee; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .img-container img { max-width: 92%; max-height: 92%; object-fit: contain; transition: 0.8s; }
-        .tech-card:hover img { transform: scale(1.05); }
-
-        .prompt-area { position: relative; background: #fcfcfb; padding: 25px; margin-top: 20px; border: 1px solid #f0f0ee; }
-        .copy-icon-btn { position: absolute; top: 15px; right: 15px; font-size: 16px; color: #bbb; cursor: pointer; }
-
-        /* Footer Icons */
-        .footer-social-icon { font-size: 18px; color: #999; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        .footer-social-icon:hover { color: #000; transform: translateY(-3px); }
-
-        .editorial-title { font-family: 'Cormorant Garamond', serif; }
-        .label-text { font-size: 10px; text-transform: uppercase; letter-spacing: 0.3em; color: #999; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -119,86 +71,6 @@
         </footer>
     </div>
 
-    <script>
-        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTpKvnBNdPxRkepgDMqxhwp-oZIiDO69lFfNXaMxPSVdgWPUuBzLQsiKEVL6ursmPGoEVzSXme5VvK/pub?gid=0&single=true&output=csv";
-        
-        const ENHANCE_STRING = "Masterpiece ultra-realistic 8k portrait, [Subject Name/Reference] with hyper-detailed skin pores, realistic sweat sheen, and fine facial hair textures. Lighting: dual-tone volumetric lighting with a 70/30 split between cold moonlight-blue and warm high-pressure sodium orange. Environment: narrow wet urban alleyway, ray-traced reflections on damp brickwork and graffiti. Camera: Shot on ARRI Alexa LF, 85mm prime lens, f/1.8 for creamy bokeh, deep natural shadows with preserved black levels. Post-Process: subtle chromatic aberration, 35mm film grain, high dynamic range (HDR), professionally color graded for a moody 'Seinen manga' live-action aesthetic.";
-
-        window.onload = () => {
-            document.getElementById('loader-bar').style.width = '100%';
-            fetchData();
-        };
-
-        async function fetchData() {
-            Papa.parse(SHEET_URL, {
-                download: true, header: true, skipEmptyLines: true,
-                complete: (results) => {
-                    renderCards(results.data);
-                    setTimeout(() => {
-                        document.getElementById('welcome-screen').style.opacity = '0';
-                        document.getElementById('main-content').style.opacity = '1';
-                        setTimeout(() => document.getElementById('welcome-screen').remove(), 1000);
-                    }, 1200);
-                }
-            });
-        }
-
-        function renderCards(data) {
-            const grid = document.getElementById('main-grid');
-            grid.innerHTML = data.map((item, i) => {
-                if(!item.Title) return '';
-                return `
-                <div class="tech-card">
-                    <div class="img-container">
-                        <img src="${item.ImageURL}" alt="${item.Title}" referrerpolicy="no-referrer">
-                    </div>
-                    <div class="pt-10">
-                        <div class="flex justify-between mb-4">
-                            <span class="label-text text-zinc-400">INDEX_0${i+1}</span>
-                        </div>
-                        <h3 class="text-3xl editorial-title font-semibold mb-6 tracking-wide">${item.Title}</h3>
-                        <div class="prompt-area">
-                            <i class="fa-regular fa-copy copy-icon-btn" onclick="copyText('${item.Prompt.replace(/'/g, "\\'")}', this)"></i>
-                            <p class="text-[11px] leading-relaxed text-zinc-400 italic">"${item.Prompt}"</p>
-                        </div>
-                    </div>
-                </div>`;
-            }).join('');
-        }
-
-        function copyText(text, icon) {
-            navigator.clipboard.writeText(text).then(() => {
-                icon.className = 'fa-solid fa-check text-green-500 copy-icon-btn';
-                setTimeout(() => icon.className = 'fa-regular fa-copy copy-icon-btn', 2000);
-            });
-        }
-
-        function runEnhanceSequence() {
-            navigator.clipboard.writeText(ENHANCE_STRING).then(() => {
-                const modal = document.getElementById('enhance-modal');
-                const boom = document.getElementById('boom-text');
-                const list = document.getElementById('instruction-list');
-                modal.classList.add('active');
-                
-                setTimeout(() => {
-                    list.style.transition = "opacity 0.5s ease";
-                    list.style.opacity = "0";
-                    setTimeout(() => {
-                        list.style.display = "none";
-                        boom.classList.add('show');
-                    }, 500);
-                }, 3500);
-
-                setTimeout(() => {
-                    modal.classList.remove('active');
-                    setTimeout(() => {
-                        boom.classList.remove('show');
-                        list.style.display = 'block';
-                        list.style.opacity = '1';
-                    }, 800);
-                }, 7000);
-            });
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
