@@ -27,14 +27,11 @@
             opacity: 0; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         #enhance-modal.active { display: flex; opacity: 1; }
-
         .modal-box { text-align: center; width: 100%; max-width: 500px; padding: 40px; }
         .instruction-step { font-size: 10px; text-transform: uppercase; letter-spacing: 0.3em; color: #aaa; margin-bottom: 20px; opacity: 0; transform: translateY(15px); }
-        
         .active .instruction-step { animation: fadeInUp 0.6s forwards; }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* Ultra Stylish Boom Animation */
         #boom-text { 
             font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-style: italic;
             display: none; opacity: 0; letter-spacing: -0.05em;
@@ -42,17 +39,16 @@
             transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
             color: #111;
         }
-        #boom-text.show { 
-            display: block; opacity: 1; transform: scale(1) translateY(0); 
-            filter: blur(0px); letter-spacing: 0.02em;
-        }
+        #boom-text.show { display: block; opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); letter-spacing: 0.02em; }
 
         .tech-card { background: var(--card-bg); border: 1px solid rgba(0,0,0,0.04); padding: 24px; transition: 0.5s; }
         .img-container { width: 100%; height: 420px; background: #f0f0ee; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .img-container img { max-width: 92%; max-height: 92%; object-fit: contain; }
+        .img-container img { max-width: 92%; max-height: 92%; object-fit: contain; transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .tech-card:hover img { transform: scale(1.05); }
 
         .prompt-area { position: relative; background: #fcfcfb; padding: 25px; margin-top: 20px; border: 1px solid #f0f0ee; }
-        .copy-icon-btn { position: absolute; top: 15px; right: 15px; font-size: 16px; color: #bbb; cursor: pointer; }
+        .copy-icon-btn { position: absolute; top: 15px; right: 15px; font-size: 16px; color: #bbb; cursor: pointer; transition: 0.3s; }
+        .copy-icon-btn:hover { color: #000; }
 
         .editorial-title { font-family: 'Cormorant Garamond', serif; }
         .label-text { font-size: 10px; text-transform: uppercase; letter-spacing: 0.3em; color: #999; }
@@ -107,6 +103,16 @@
 
         <main id="main-grid" class="max-w-[1500px] mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 pb-40">
             </main>
+
+        <footer class="py-24 border-t border-zinc-200 bg-white text-center">
+            <div class="mb-10 flex justify-center gap-8">
+                <a href="https://github.com/MDANiKSHEiKH" target="_blank" class="label-text hover:text-black transition-colors">GitHub</a>
+                <a href="#" class="label-text hover:text-black transition-colors">Portfolio</a>
+                <a href="mailto:anik@example.com" class="label-text hover:text-black transition-colors">Contact</a>
+            </div>
+            <p class="label-text mb-2 tracking-[0.4em]">MD ANiK SHEiKH // PROMPT TERMINAL</p>
+            <p class="text-[9px] text-zinc-300 tracking-[0.2em]">© 2026 LIMITED EDITION VISUALS // CHANDPUR, BD</p>
+        </footer>
     </div>
 
     <script>
@@ -140,16 +146,17 @@
                 return `
                 <div class="tech-card">
                     <div class="img-container">
-                        <img src="${item.ImageURL}" referrerpolicy="no-referrer">
+                        <img src="${item.ImageURL}" alt="${item.Title}" referrerpolicy="no-referrer">
                     </div>
                     <div class="pt-10">
-                        <div class="flex justify-between mb-4">
-                            <span class="label-text text-zinc-400">INDEX_0${i+1}</span>
+                        <div class="flex justify-between mb-4 items-center">
+                            <span class="label-text text-zinc-400">${item.Category || 'ARCHIVE'}</span>
+                            <span class="label-text">INDEX_0${i+1}</span>
                         </div>
-                        <h3 class="text-3xl editorial-title font-semibold mb-6">${item.Title}</h3>
+                        <h3 class="text-3xl editorial-title font-semibold mb-6 tracking-wide">${item.Title}</h3>
                         <div class="prompt-area">
                             <i class="fa-regular fa-copy copy-icon-btn" onclick="copyText('${item.Prompt.replace(/'/g, "\\'")}', this)"></i>
-                            <p class="text-[11px] leading-relaxed text-zinc-400 italic">"${item.Prompt}"</p>
+                            <p class="text-[11px] leading-relaxed text-zinc-400 italic font-light">"${item.Prompt}"</p>
                         </div>
                     </div>
                 </div>`;
@@ -171,7 +178,6 @@
 
                 modal.classList.add('active');
                 
-                // Show 'Boom' with stylish effect after 3.5s
                 setTimeout(() => {
                     list.style.transition = "opacity 0.5s ease";
                     list.style.opacity = "0";
@@ -181,7 +187,6 @@
                     }, 500);
                 }, 3500);
 
-                // Close exactly at 7s
                 setTimeout(() => {
                     modal.classList.remove('active');
                     setTimeout(() => {
