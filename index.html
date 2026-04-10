@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANiK | High-Tech Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono&display=swap');
+        :root { --primary: #00ffcc; --bg: #050505; }
+        body { background-color: var(--bg); color: #ffffff; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+        
+        #welcome-screen { position: fixed; inset: 0; background: #000; z-index: 999; display: flex; flex-direction: column; justify-content: center; align-items: center; font-family: 'JetBrains Mono', monospace; transition: all 0.8s ease; }
+        .loader-line { width: 0%; height: 2px; background: var(--primary); box-shadow: 0 0 15px var(--primary); transition: width 2.5s ease-in-out; }
+        #main-content { opacity: 0; transition: opacity 1s ease-in; }
+
+        /* CRT Scanline Bug Fix */
+        .scanline { position: fixed; inset: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%); background-size: 100% 4px; z-index: 50; pointer-events: none; opacity: 0.2; }
+
+        .tech-card { 
+            background: rgba(15, 15, 15, 0.6); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            clip-path: polygon(0 0, 92% 0, 100% 8%, 100% 100%, 8% 100%, 0 92%);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+        }
+        .tech-card:hover { border-color: var(--primary); transform: translateY(-8px); box-shadow: 0 10px 30px rgba(0, 255, 204, 0.1); }
+        
+        /* Image Loading Bug Fix */
+        .img-container { position: relative; width: 100%; height: 220px; overflow: hidden; background: #111; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.5s; }
+        .tech-card:hover img { opacity: 1; transform: scale(1.1); }
+    </style>
+</head>
+<body>
+
+    <div class="scanline"></div>
+
+    <div id="welcome-screen">
+        <div class="mb-4 text-zinc-600 text-[10px] tracking-[0.5em] uppercase animate-pulse">[ Initializing_Core ]</div>
+        <div class="w-64 bg-zinc-900 h-[2px] overflow-hidden"><div id="loader-bar" class="loader-line"></div></div>
+        <div id="boot-status" class="text-[9px] text-[#00ffcc] mt-4 uppercase tracking-[0.3em]">Connecting to Eagle_Server...</div>
+    </div>
+
+    <div id="main-content">
+        <nav class="p-8 flex justify-between items-center max-w-7xl mx-auto border-b border-white/5 relative z-10">
+            <h1 class="text-xl font-bold tracking-[0.4em] uppercase text-[#00ffcc]">ANiK_ENGiNE</h1>
+            <div id="data-status" class="font-mono text-[9px] text-zinc-500 bg-white/5 px-3 py-1 rounded-full uppercase">Status: Syncing</div>
+        </nav>
+
+        <header class="py-24 px-8 text-center relative z-10">
+            <h2 class="text-6xl md:text-9xl font-bold tracking-tighter uppercase mb-4 leading-none">The <span class="text-[#00ffcc] italic font-light">Archive.</span></h2>
+            <div class="inline-block border-l border-r border-[#00ffcc]/30 px-6">
+                <p class="text-[10px] text-zinc-500 tracking-[0.6em] uppercase">MD ANiK SHEiKH // PROMPT TERMINAL</p>
+            </div>
+        </header>
+
+        <main id="main-grid" class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 pb-40 relative z-10">
+            </main>
+    </div>
+
+    <script>
+        // আপনার লেটেস্ট CSV লিঙ্ক (Fix: Added gid and cache busting)
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTpKvnBNdPxRkepgDMqxhwp-oZIiDO69lFfNXaMxPSVdgWPUuBzLQsiKEVL6ursmPGoEVzSXme5VvK/pub?gid=0&single=true&output=csv&t=" + new Date().getTime();
+
+        window.onload = () => {
+            document.getElementById('loader-bar').style.width = '100%';
+            fetchData();
+        };
+
+        async function fetchData() {
+            Papa.parse(SHEET_URL, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: (results) => {
+                    const data = results.data;
+                    if(data && data.length > 0) {
+                        document.getElementById('data-status').innerText = "Status: Online";
+                        renderCards(data);
+                    } else {
+                        showError("DATABASE_IS_EMPTY");
+                    }
+                    setTimeout(revealSite, 1800);
+                },
+                error: (err) => {
+                    document.getElementById('data-status').innerText = "Status: Sync Error";
+                    showError("SYNC_FAILED_RETRY");
+                    setTimeout(revealSite, 1800);
+                }
+            });
+        }
+
+        function renderCards(data) {
+            const grid = document.getElementById('main-grid');
+            grid.innerHTML = data.map((item, i) => {
+                // Bug Fix: Handling variations in column naming
+                const title = item.Title || item.TITLE || item.title || "Unknown Subject";
+                const img = item.ImageURL || item.IMAGEURL || item.imageurl || "https://via.placeholder.com/400x300?text=Eagle_Security_Service";
+                const prompt = item.Prompt || item.PROMPT || item.prompt || "No prompt data found.";
+                const category = item.Category || item.category || "General";
+                const id = item.ID || item.id || i + 1;
+
+                if(title === "Unknown Subject" && prompt === "No prompt data found.") return '';
+
+                return `
+                <div class="tech-card overflow-hidden">
+                    <div class="img-container">
+                        <img src="${img}" alt="${title}" onerror="this.src='https://via.placeholder.com/400x300?text=Image_Link_Broken'">
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-center text-[9px] font-mono text-zinc-500 mb-4 uppercase tracking-widest">
+                            <span class="text-[#00ffcc]/60 bg-[#00ffcc]/5 px-2 py-0.5 border border-[#00ffcc]/20">${category}</span>
+                            <span>#UID_${id}</span>
+                        </div>
+                        <h3 class="text-xl font-bold uppercase tracking-widest mb-4 group-hover:text-[#00ffcc]">${title}</h3>
+                        <div class="bg-[#000] border border-white/5 p-4 text-[11px] text-zinc-500 font-mono italic mb-6 leading-relaxed">
+                            "${prompt}"
+                        </div>
+                        <button onclick="copyPrompt(this, \`${prompt.replace(/`/g, '\\`')}\`)" 
+                                class="w-full py-3 border border-white/10 text-[9px] uppercase tracking-[0.4em] font-bold hover:bg-[#00ffcc] hover:text-black transition-all">
+                            Initialize_Copy
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function revealSite() {
+            document.getElementById('welcome-screen').style.opacity = '0';
+            document.getElementById('main-content').style.opacity = '1';
+            setTimeout(() => document.getElementById('welcome-screen').remove(), 800);
+        }
+
+        function showError(msg) {
+            document.getElementById('main-grid').innerHTML = `
+                <div class="col-span-full text-center py-20">
+                    <p class="text-zinc-600 font-mono text-sm uppercase tracking-[0.5em] mb-4">${msg}</p>
+                    <button onclick="location.reload()" class="text-[#00ffcc] text-[10px] underline tracking-widest uppercase">Retry_Connection</button>
+                </div>`;
+        }
+
+        function copyPrompt(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.innerText;
+                btn.innerText = "DATA_COPIED";
+                btn.style.backgroundColor = "#00ffcc";
+                btn.style.color = "#000";
+                setTimeout(() => {
+                    btn.innerText = original;
+                    btn.style.backgroundColor = "";
+                    btn.style.color = "";
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
