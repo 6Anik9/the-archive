@@ -17,7 +17,6 @@
         .loader-line { width: 0%; height: 1px; background: #000; transition: width 2s ease; }
         #main-content { opacity: 0; transition: opacity 1.5s ease; }
 
-        /* Navigation & Logo Container */
         .nav-wrapper { position: relative; }
         .sketch-logo-btn {
             width: 55px; height: 55px;
@@ -25,16 +24,14 @@
             transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer; z-index: 100; position: relative;
         }
-        .sketch-logo-btn:hover { transform: scale(1.05); }
 
-        /* Slide Down Menu */
         #drop-menu {
             position: absolute; top: 65px; left: 0;
             background: white; border: 1px solid rgba(0,0,0,0.05);
             width: 220px; border-radius: 2px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.05);
             transform: scaleY(0); transform-origin: top;
-            opacity: 0; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 90; pointer-events: none;
         }
         #drop-menu.active { transform: scaleY(1); opacity: 1; pointer-events: auto; }
@@ -44,10 +41,8 @@
             font-size: 10px; text-transform: uppercase; letter-spacing: 0.25em;
             color: #999; transition: 0.3s; border-bottom: 1px solid #f9f9f8;
         }
-        .menu-link:last-child { border-bottom: none; }
         .menu-link:hover { color: #000; background: #fcfcfb; padding-left: 25px; }
 
-        /* Tech Card Style */
         .tech-card { background: var(--card-bg); border: 1px solid rgba(0,0,0,0.04); padding: 24px; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .tech-card:hover { transform: translateY(-8px); box-shadow: 0 40px 70px rgba(0,0,0,0.05); }
         
@@ -64,7 +59,7 @@
 <body>
 
     <div id="welcome-screen">
-        <p class="label-text mb-4">Establishing Uplink</p>
+        <p class="label-text mb-4">ESTABLISHING CONNECTION</p>
         <div class="w-40 h-[1px] bg-zinc-200"><div id="loader-bar" class="loader-line"></div></div>
     </div>
 
@@ -78,12 +73,12 @@
                         <circle cx="100" cy="85" r="10" stroke="black" stroke-width="2"/>
                         <circle cx="100" cy="85" r="4" fill="black"/>
                         <path d="M100 120V160M100 120C100 120 80 115 60 120C45 125 45 155 45 155C45 155 60 150 75 150C90 150 100 160 100 160ZM100 120C100 120 120 115 140 120C155 125 155 155 155 155C155 155 140 150 125 150C110 150 100 160 100 160Z" stroke="black" stroke-width="2.5" stroke-linecap="round"/>
-                        <path d="M100 25V45M90 35H110" stroke="black" stroke-width="1.5"/>
                     </svg>
                 </div>
                 <div id="drop-menu">
-                    <a href="#" class="menu-link" onclick="loadNewSheet('enhance')">Enhance</a>
-                    <a href="#" class="menu-link" onclick="loadNewSheet('prompt')">Prompt Breaker</a>
+                    <a href="javascript:void(0)" class="menu-link" onclick="loadNewSheet('main')">Main Archive</a>
+                    <a href="javascript:void(0)" class="menu-link" onclick="loadNewSheet('enhance')">Enhance</a>
+                    <a href="javascript:void(0)" class="menu-link" onclick="loadNewSheet('prompt')">Prompt Breaker</a>
                 </div>
             </div>
             <span class="label-text">SYS_V4.0 // ONLINE</span>
@@ -98,29 +93,24 @@
 
         <main id="main-grid" class="max-w-[1500px] mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 pb-40">
             </main>
-
-        <footer class="py-24 border-t border-zinc-200 bg-white text-center">
-            <p class="label-text mb-2 tracking-[0.4em]">MD ANiK SHEiKH // PROMPT TERMINAL</p>
-            <p class="text-[9px] text-zinc-300 tracking-[0.2em]">© 2026 HIGH-END VISUAL SYSTEM</p>
-        </footer>
     </div>
 
     <script>
         const CONFIG = {
             main: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTpKvnBNdPxRkepgDMqxhwp-oZIiDO69lFfNXaMxPSVdgWPUuBzLQsiKEVL6ursmPGoEVzSXme5VvK/pub?gid=0&single=true&output=csv",
-            enhance: "YOUR_ENHANCE_SHEET_URL", 
-            prompt: "YOUR_PROMPT_BREAKER_SHEET_URL" 
+            enhance: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPZxdHprNT50YNAKd675Va5jMejh5_jOjo3oCE4cAaLdBGF66ZWROJBbWckaPztcHKPq6WzVM0JuqV/pub?output=csv", 
+            prompt: "YOUR_PROMPT_BREAKER_URL" 
         };
 
         const logoBtn = document.getElementById('logo-btn');
         const dropMenu = document.getElementById('drop-menu');
 
-        logoBtn.addEventListener('click', (e) => {
+        logoBtn.onclick = (e) => {
             e.stopPropagation();
             dropMenu.classList.toggle('active');
-        });
+        };
 
-        document.addEventListener('click', () => dropMenu.classList.remove('active'));
+        document.onclick = () => dropMenu.classList.remove('active');
 
         window.onload = () => {
             document.getElementById('loader-bar').style.width = '100%';
@@ -131,33 +121,34 @@
             const title = document.getElementById('display-title');
             const sub = document.getElementById('display-sub');
             
-            if(type === 'enhance') {
+            if(type === 'main') {
+                title.innerHTML = 'The <span class="italic text-zinc-400">Archive.</span>';
+                sub.innerText = 'Curated Visual Intelligence';
+                fetchData(CONFIG.main);
+            } else if(type === 'enhance') {
                 title.innerHTML = 'Visual <span class="italic text-zinc-400">Enhance.</span>';
                 sub.innerText = 'AI REFINEMENT ENGINE';
                 fetchData(CONFIG.enhance);
-            } else {
+            } else if(type === 'prompt') {
                 title.innerHTML = 'Prompt <span class="italic text-zinc-400">Breaker.</span>';
                 sub.innerText = 'STRUCTURAL LOGIC ANALYSIS';
                 fetchData(CONFIG.prompt);
             }
+            dropMenu.classList.remove('active');
         }
 
         async function fetchData(url) {
             if(!url || url.includes('YOUR_')) return;
             Papa.parse(url, {
                 download: true, header: true, skipEmptyLines: true,
-                complete: (results) => {
-                    renderCards(results.data);
-                    document.getElementById('welcome-screen').style.opacity = '0';
-                    document.getElementById('main-content').style.opacity = '1';
-                }
+                complete: (results) => renderCards(results.data)
             });
         }
 
         function renderCards(data) {
             const grid = document.getElementById('main-grid');
             grid.innerHTML = data.map((item, i) => {
-                if(!item.Title) return '';
+                if(!item.Title || !item.ImageURL) return '';
                 return `
                 <div class="tech-card group">
                     <div class="img-container">
@@ -170,22 +161,27 @@
                         </div>
                         <h3 class="text-3xl editorial-title font-semibold mb-6 tracking-wide">${item.Title}</h3>
                         <div class="prompt-area">
-                            <i class="fa-regular fa-copy copy-icon-btn" onclick="copyText('${item.Prompt}', this)"></i>
-                            <p class="text-[11px] leading-relaxed text-zinc-400 font-light italic">"${item.Prompt}"</p>
+                            <i class="fa-regular fa-copy copy-icon-btn" onclick="copyText('${item.Prompt.replace(/'/g, "\\'")}', this)"></i>
+                            <p class="text-[11px] leading-relaxed text-zinc-400 font-light italic pr-4">"${item.Prompt}"</p>
                         </div>
                     </div>
                 </div>`;
             }).join('');
+            
+            // Re-hide loader if content changes
+            document.getElementById('welcome-screen').style.opacity = '0';
+            document.getElementById('main-content').style.opacity = '1';
         }
 
         function copyText(text, icon) {
-            navigator.clipboard.writeText(text);
-            icon.classList.replace('fa-regular', 'fa-solid');
-            icon.classList.add('fa-check', 'text-green-500');
-            setTimeout(() => {
-                icon.classList.replace('fa-solid', 'fa-regular');
-                icon.classList.remove('fa-check', 'text-green-500');
-            }, 2000);
+            navigator.clipboard.writeText(text).then(() => {
+                icon.classList.replace('fa-regular', 'fa-solid');
+                icon.classList.add('fa-check', 'text-green-500');
+                setTimeout(() => {
+                    icon.classList.replace('fa-solid', 'fa-regular');
+                    icon.classList.remove('fa-check', 'text-green-500');
+                }, 2000);
+            });
         }
     </script>
 </body>
