@@ -10,50 +10,41 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;600&family=Inter:wght@200;400;600&display=swap');
         
-        :root { --bg: #f8f8f6; --card-bg: #ffffff; }
-        body { background-color: var(--bg); color: #111; font-family: 'Inter', sans-serif; overflow-x: hidden; margin: 0; }
+        :root { --bg: #f8f8f6; --card-bg: #ffffff; --accent: #111111; }
+        body { background-color: var(--bg); color: var(--accent); font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* Loading Screen */
-        #welcome-screen { 
-            position: fixed; inset: 0; background: var(--bg); z-index: 9999; 
-            display: flex; justify-content: center; align-items: center; 
-        }
-        .loader-line { width: 0%; height: 2px; background: #000; transition: width 0.5s ease; }
+        #welcome-screen { position: fixed; inset: 0; background: var(--bg); z-index: 999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .loader-line { width: 0%; height: 1px; background: #000; transition: width 2s ease; }
+        #main-content { opacity: 0; transition: opacity 1.5s ease; }
 
-        /* Navigation */
-        .nav-wrapper { position: relative; z-index: 1000; }
-        .sketch-logo-btn {
-            width: 55px; height: 55px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; -webkit-tap-highlight-color: transparent;
-        }
+        .enhance-btn { cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 6px; color: #999; }
+        .enhance-btn:hover { color: #000; }
 
-        /* Dropdown Menu */
-        #drop-menu {
-            position: absolute; top: 65px; left: 0;
-            background: white; border: 1px solid rgba(0,0,0,0.08);
-            width: 200px; border-radius: 2px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            transform: scaleY(0); transform-origin: top;
-            opacity: 0; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            pointer-events: none;
+        /* Instruction Pop-up */
+        #enhance-modal {
+            position: fixed; inset: 0; background: rgba(248, 248, 246, 0.98);
+            z-index: 2000; display: none; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        #drop-menu.active { transform: scaleY(1); opacity: 1; pointer-events: auto; }
+        #enhance-modal.active { display: flex; opacity: 1; }
 
-        .menu-link {
-            padding: 15px 20px; display: block;
-            font-size: 10px; text-transform: uppercase; letter-spacing: 0.25em;
-            color: #999; transition: 0.3s; border-bottom: 1px solid #f9f9f8;
-            cursor: pointer;
+        .modal-box { text-align: center; width: 100%; max-width: 450px; padding: 40px; }
+        .instruction-step { font-size: 10px; text-transform: uppercase; letter-spacing: 0.25em; color: #888; margin-bottom: 15px; opacity: 0; transform: translateY(10px); animation: fadeInUp 0.5s forwards; }
+        
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+        #boom-text { 
+            font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-style: italic;
+            display: none; opacity: 0; transform: scale(0.9); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            color: #111;
         }
-        .menu-link:hover { color: #000; background: #fafafa; padding-left: 25px; }
+        #boom-text.show { display: block; opacity: 1; transform: scale(1); }
 
-        /* Grid System */
         .tech-card { background: var(--card-bg); border: 1px solid rgba(0,0,0,0.04); padding: 24px; transition: 0.5s; }
         .img-container { width: 100%; height: 420px; background: #f0f0ee; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .img-container img { max-width: 92%; max-height: 92%; object-fit: contain; }
 
-        .prompt-area { position: relative; background: #fcfcfb; padding: 25px; margin-top: 20px; border: 1px solid #f0f0ee; min-height: 80px; }
+        .prompt-area { position: relative; background: #fcfcfb; padding: 25px; margin-top: 20px; border: 1px solid #f0f0ee; }
         .copy-icon-btn { position: absolute; top: 15px; right: 15px; font-size: 16px; color: #bbb; cursor: pointer; }
 
         .editorial-title { font-family: 'Cormorant Garamond', serif; }
@@ -63,37 +54,49 @@
 <body>
 
     <div id="welcome-screen">
-        <div class="w-32 h-[1px] bg-zinc-200">
-            <div id="loader-bar" class="loader-line"></div>
+        <p class="label-text mb-4">Rendering Archive</p>
+        <div class="w-40 h-[1px] bg-zinc-200"><div id="loader-bar" class="loader-line"></div></div>
+    </div>
+
+    <div id="enhance-modal">
+        <div class="modal-box">
+            <div id="instruction-list">
+                <p class="label-text mb-10 text-zinc-400">Sequence Protocol</p>
+                <div class="instruction-step" style="animation-delay: 0.2s;">1. Open Nano Banana</div>
+                <div class="instruction-step" style="animation-delay: 0.4s;">2. Upload Low Scale Image</div>
+                <div class="instruction-step" style="animation-delay: 0.6s;">3. Use Copied Prompt</div>
+                <div class="instruction-step" style="animation-delay: 0.8s;">4. Press Go</div>
+            </div>
+            <div id="boom-text">Boom! You Got Enhanced.</div>
         </div>
     </div>
 
-    <div id="main-content" style="display:none;">
-        <nav class="py-10 px-10 flex justify-between items-center max-w-[1500px] mx-auto border-b border-zinc-100">
-            <div class="nav-wrapper">
-                <div class="sketch-logo-btn" id="logo-trigger">
-                    <svg width="55" height="55" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="100" cy="100" r="85" stroke="black" stroke-width="2.5" stroke-dasharray="8 4"/>
-                        <path d="M60 85C60 85 80 65 100 65C120 65 140 85 140 85C140 85 120 105 100 105C80 105 60 85 60 85Z" stroke="black" stroke-width="2.5"/>
-                        <circle cx="100" cy="85" r="10" stroke="black" stroke-width="2"/>
-                        <circle cx="100" cy="85" r="4" fill="black"/>
-                        <path d="M100 120V160M100 120C100 120 80 115 60 120C45 125 45 155 45 155C45 155 60 150 75 150C90 150 100 160 100 160ZM100 120C100 120 120 115 140 120C155 125 155 155 155 155C155 155 140 150 125 150C110 150 100 160 100 160Z" stroke="black" stroke-width="2.5" stroke-linecap="round"/>
-                    </svg>
-                </div>
-                <div id="drop-menu">
-                    <div class="menu-link" onclick="changeSheet('main')">Main Archive</div>
-                    <div class="menu-link" onclick="changeSheet('enhance')">Enhance</div>
-                    <div class="menu-link" onclick="changeSheet('prompt')">Prompt Breaker</div>
-                </div>
+    <div id="main-content">
+        <nav class="py-8 px-10 flex justify-between items-center max-w-[1500px] mx-auto border-b border-zinc-100">
+            <div class="sketch-logo">
+                <svg width="60" height="60" viewBox="0 0 200 200" fill="none">
+                    <circle cx="100" cy="100" r="85" stroke="black" stroke-width="2.5" stroke-dasharray="8 4"/>
+                    <path d="M60 85C60 85 80 65 100 65C120 65 140 85 140 85C140 85 120 105 100 105C80 105 60 85 60 85Z" stroke="black" stroke-width="2.5"/>
+                    <circle cx="100" cy="85" r="10" stroke="black" stroke-width="2"/>
+                    <circle cx="100" cy="85" r="4" fill="black"/>
+                    <path d="M100 120V160M100 120C100 120 80 115 60 120C45 125 45 155 45 155C45 155 60 150 75 150C90 150 100 160 100 160ZM100 120C100 120 120 115 140 120C155 125 155 155 155 155C155 155 140 150 125 150C110 150 100 160 100 160Z" stroke="black" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
             </div>
-            <span class="label-text">SYS_V4.0 // ONLINE</span>
+            
+            <div class="flex items-center gap-6">
+                <div class="enhance-btn label-text" onclick="runEnhanceSequence()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> 
+                    <span>Enhance</span>
+                </div>
+                <span class="label-text">SYS_V4.0 // ONLINE</span>
+            </div>
         </nav>
 
         <header class="py-24 text-center">
-            <h2 id="page-title" class="text-7xl md:text-9xl editorial-title font-light tracking-tight mb-4 text-zinc-900">
+            <h2 class="text-7xl md:text-9xl editorial-title font-light tracking-tight mb-4 text-zinc-900">
                 The <span class="italic text-zinc-400">Archive.</span>
             </h2>
-            <p id="page-sub" class="label-text text-zinc-400 mt-6 tracking-[0.6em]">Curated Visual Intelligence</p>
+            <p class="label-text text-zinc-400 mt-6 tracking-[0.6em]">Curated Visual Intelligence</p>
         </header>
 
         <main id="main-grid" class="max-w-[1500px] mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 pb-40">
@@ -101,61 +104,25 @@
     </div>
 
     <script>
-        const SHEETS = {
-            main: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTpKvnBNdPxRkepgDMqxhwp-oZIiDO69lFfNXaMxPSVdgWPUuBzLQsiKEVL6ursmPGoEVzSXme5VvK/pub?gid=0&single=true&output=csv",
-            enhance: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPZxdHprNT50YNAKd675Va5jMejh5_jOjo3oCE4cAaLdBGF66ZWROJBbWckaPztcHKPq6WzVM0JuqV/pub?output=csv",
-            prompt: "" 
-        };
-
-        const trigger = document.getElementById('logo-trigger');
-        const menu = document.getElementById('drop-menu');
-        const loader = document.getElementById('loader-bar');
-
-        // Toggle logic
-        trigger.onclick = (e) => {
-            e.stopPropagation();
-            menu.classList.toggle('active');
-        };
-
-        document.onclick = () => menu.classList.remove('active');
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTpKvnBNdPxRkepgDMqxhwp-oZIiDO69lFfNXaMxPSVdgWPUuBzLQsiKEVL6ursmPGoEVzSXme5VvK/pub?gid=0&single=true&output=csv";
+        
+        const ENHANCE_STRING = "Masterpiece ultra-realistic 8k portrait, [Subject Name/Reference] with hyper-detailed skin pores, realistic sweat sheen, and fine facial hair textures. Lighting: dual-tone volumetric lighting with a 70/30 split between cold moonlight-blue and warm high-pressure sodium orange. Environment: narrow wet urban alleyway, ray-traced reflections on damp brickwork and graffiti. Camera: Shot on ARRI Alexa LF, 85mm prime lens, f/1.8 for creamy bokeh, deep natural shadows with preserved black levels. Post-Process: subtle chromatic aberration, 35mm film grain, high dynamic range (HDR), professionally color graded for a moody 'Seinen manga' live-action aesthetic.";
 
         window.onload = () => {
-            loader.style.width = '100%';
-            fetchData(SHEETS.main);
+            document.getElementById('loader-bar').style.width = '100%';
+            fetchData();
         };
 
-        function changeSheet(type) {
-            const title = document.getElementById('page-title');
-            const sub = document.getElementById('page-sub');
-            
-            // Show loading
-            document.getElementById('welcome-screen').style.display = 'flex';
-            loader.style.width = '0%';
-            setTimeout(() => loader.style.width = '100%', 10);
-
-            if(type === 'main') {
-                title.innerHTML = 'The <span class="italic text-zinc-400">Archive.</span>';
-                sub.innerText = 'Curated Visual Intelligence';
-                fetchData(SHEETS.main);
-            } else if(type === 'enhance') {
-                title.innerHTML = 'Visual <span class="italic text-zinc-400">Enhance.</span>';
-                sub.innerText = 'AI REFINEMENT ENGINE';
-                fetchData(SHEETS.enhance);
-            }
-            menu.classList.remove('active');
-        }
-
-        async function fetchData(url) {
-            if(!url) return;
-            Papa.parse(url, {
+        async function fetchData() {
+            Papa.parse(SHEET_URL, {
                 download: true, header: true, skipEmptyLines: true,
                 complete: (results) => {
                     renderCards(results.data);
-                    // Hide loading after parsing
                     setTimeout(() => {
-                        document.getElementById('welcome-screen').style.display = 'none';
-                        document.getElementById('main-content').style.display = 'block';
-                    }, 800);
+                        document.getElementById('welcome-screen').style.opacity = '0';
+                        document.getElementById('main-content').style.opacity = '1';
+                        setTimeout(() => document.getElementById('welcome-screen').remove(), 1000);
+                    }, 1200);
                 }
             });
         }
@@ -163,31 +130,54 @@
         function renderCards(data) {
             const grid = document.getElementById('main-grid');
             grid.innerHTML = data.map((item, i) => {
-                if(!item.Title || !item.ImageURL) return '';
+                if(!item.Title) return '';
                 return `
                 <div class="tech-card">
                     <div class="img-container">
                         <img src="${item.ImageURL}" referrerpolicy="no-referrer">
                     </div>
                     <div class="pt-10">
-                        <div class="flex justify-between mb-4 items-center">
-                            <span class="label-text text-zinc-400">${item.Category || 'SYSTEM'}</span>
-                            <span class="label-text">INDEX_0${i+1}</span>
+                        <div class="flex justify-between mb-4">
+                            <span class="label-text text-zinc-400">INDEX_0${i+1}</span>
                         </div>
-                        <h3 class="text-3xl editorial-title font-semibold mb-6 tracking-wide">${item.Title}</h3>
+                        <h3 class="text-3xl editorial-title font-semibold mb-6">${item.Title}</h3>
                         <div class="prompt-area">
-                            <i class="fa-regular fa-copy copy-icon-btn" onclick="copyPrompt(this, '${item.Prompt.replace(/'/g, "\\'")}')"></i>
-                            <p class="text-[11px] leading-relaxed text-zinc-400 font-light italic">"${item.Prompt}"</p>
+                            <i class="fa-regular fa-copy copy-icon-btn" onclick="copyText('${item.Prompt.replace(/'/g, "\\'")}', this)"></i>
+                            <p class="text-[11px] leading-relaxed text-zinc-400 italic">"${item.Prompt}"</p>
                         </div>
                     </div>
                 </div>`;
             }).join('');
         }
 
-        function copyPrompt(btn, text) {
+        function copyText(text, icon) {
             navigator.clipboard.writeText(text).then(() => {
-                btn.className = 'fa-solid fa-check copy-icon-btn text-green-500';
-                setTimeout(() => btn.className = 'fa-regular fa-copy copy-icon-btn', 2000);
+                icon.className = 'fa-solid fa-check text-green-500 copy-icon-btn';
+                setTimeout(() => icon.className = 'fa-regular fa-copy copy-icon-btn', 2000);
+            });
+        }
+
+        function runEnhanceSequence() {
+            navigator.clipboard.writeText(ENHANCE_STRING).then(() => {
+                const modal = document.getElementById('enhance-modal');
+                const boom = document.getElementById('boom-text');
+                const list = document.getElementById('instruction-list');
+
+                modal.classList.add('active');
+                
+                setTimeout(() => {
+                    list.style.display = 'none';
+                    boom.classList.add('show');
+                }, 3500);
+
+                // Modal closes exactly at 7 seconds
+                setTimeout(() => {
+                    modal.classList.remove('active');
+                    setTimeout(() => {
+                        boom.classList.remove('show');
+                        list.style.display = 'block';
+                    }, 600);
+                }, 7000);
             });
         }
     </script>
