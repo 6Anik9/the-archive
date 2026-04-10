@@ -11,104 +11,84 @@
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;600&family=Inter:wght@200;400;600&display=swap');
         
         :root { 
-            --bg: #f4f4f2; /* Platinum White/Off-white */
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --accent: #1a1a1a;
+            --bg: #f8f8f6; 
+            --card-bg: #ffffff;
+            --accent: #111111;
         }
         
-        body { 
-            background-color: var(--bg); 
-            color: var(--accent); 
-            font-family: 'Inter', sans-serif; 
-            letter-spacing: -0.01em;
-        }
+        body { background-color: var(--bg); color: var(--accent); font-family: 'Inter', sans-serif; }
         
-        /* Smooth Entrance */
-        #welcome-screen { 
-            position: fixed; inset: 0; background: var(--bg); z-index: 999; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-        }
+        #welcome-screen { position: fixed; inset: 0; background: var(--bg); z-index: 999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .loader-line { width: 0%; height: 1px; background: #000; transition: width 2s ease; }
         #main-content { opacity: 0; transition: opacity 1.5s ease; }
 
-        /* Luxurious Card Layout */
         .tech-card { 
             background: var(--card-bg); 
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0,0,0,0.03);
-            padding: 20px;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(0,0,0,0.04);
+            padding: 24px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .tech-card:hover { 
-            background: #ffffff;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.06);
-            transform: translateY(-5px);
-        }
+        .tech-card:hover { transform: translateY(-8px); box-shadow: 0 40px 70px rgba(0,0,0,0.05); }
         
-        /* Professional Image Frame */
         .img-container { 
-            width: 100%; height: 400px; 
-            background: #ebebe9; 
+            width: 100%; height: 420px; background: #f0f0ee; 
             display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-            position: relative;
+            overflow: hidden; position: relative;
         }
-        .img-container img { 
-            max-width: 95%; max-height: 95%; 
-            object-fit: contain;
-            filter: grayscale(20%); /* Adds a professional editorial look */
-            transition: 0.8s ease;
-        }
-        .tech-card:hover img { filter: grayscale(0%); transform: scale(1.02); }
+        .img-container img { max-width: 92%; max-height: 92%; object-fit: contain; transition: 0.8s ease; }
 
-        /* Minimal Copy Interface */
+        /* Copy Icon Interface */
         .prompt-area {
-            position: relative;
-            background: rgba(0,0,0,0.02);
-            padding: 30px;
-            margin-top: 25px;
-            border-radius: 2px;
+            position: relative; background: #fcfcfb;
+            padding: 25px; margin-top: 20px; border: 1px solid #f0f0ee;
         }
-        .copy-trigger {
+        .copy-icon-btn {
             position: absolute; top: 15px; right: 15px;
-            font-size: 12px; color: #aaa; cursor: pointer;
-            transition: 0.3s; text-transform: uppercase; letter-spacing: 0.1em;
+            font-size: 14px; color: #bbb; cursor: pointer; transition: 0.3s;
         }
-        .copy-trigger:hover { color: #000; }
+        .copy-icon-btn:hover { color: #000; }
+        .copy-icon-btn.copied { color: #27ae60; }
 
         .editorial-title { font-family: 'Cormorant Garamond', serif; }
-        .label-text { font-size: 9px; text-transform: uppercase; letter-spacing: 0.4em; color: #999; }
+        .label-text { font-size: 10px; text-transform: uppercase; letter-spacing: 0.3em; color: #999; }
         
-        ::-webkit-scrollbar { width: 2px; }
+        /* Social Icons Style */
+        .social-link { font-size: 18px; color: #999; transition: 0.3s; }
+        .social-link:hover { color: #000; transform: translateY(-3px); }
+
+        ::-webkit-scrollbar { width: 3px; }
         ::-webkit-scrollbar-thumb { background: #000; }
     </style>
 </head>
 <body>
 
     <div id="welcome-screen">
-        <p class="label-text mb-4">Establishing Secure Connection</p>
+        <p class="label-text mb-4 tracking-[0.5em]">Establishing Access</p>
         <div class="w-40 h-[1px] bg-zinc-200"><div id="loader-bar" class="loader-line"></div></div>
     </div>
 
     <div id="main-content">
-        <nav class="py-12 px-10 flex justify-between items-center max-w-[1600px] mx-auto">
-            <h1 class="text-sm font-bold tracking-[0.6em] uppercase">ANiK</h1>
-            <span class="label-text">Database System 4.0</span>
+        <nav class="py-12 px-10 flex justify-between items-center max-w-[1500px] mx-auto">
+            <h1 class="text-sm font-bold tracking-[0.8em] uppercase">ANiK</h1>
+            <span class="label-text">SYS_V4.0 // ONLINE</span>
         </nav>
 
         <header class="py-24 text-center">
-            <h2 class="text-6xl md:text-8xl editorial-title font-light tracking-tight mb-4">
-                The <span class="italic">Archive.</span>
-            </h2>
-            <div class="h-[1px] w-20 bg-black mx-auto mb-6 opacity-20"></div>
-            <p class="label-text text-zinc-400">Curated by MD ANiK SHEiKH</p>
+            <h2 class="text-7xl md:text-9xl editorial-title font-light tracking-tight mb-4">The <span class="italic">Archive.</span></h2>
+            <p class="label-text text-zinc-400 mt-6 tracking-[0.6em]">Curated Visual Intelligence</p>
         </header>
 
-        <main id="main-grid" class="max-w-[1600px] mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 pb-40">
+        <main id="main-grid" class="max-w-[1500px] mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 pb-40">
             </main>
 
-        <footer class="py-20 border-t border-zinc-200 text-center">
-            <p class="label-text">© 2026 Limited Edition Visuals</p>
+        <footer class="py-24 border-t border-zinc-200 bg-white text-center">
+            <div class="flex justify-center gap-10 mb-12">
+                <a href="https://instagram.com/6mdaniksheikh9" target="_blank" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://facebook.com" target="_blank" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://github.com/6anik9" target="_blank" class="social-link"><i class="fa-brands fa-github"></i></a>
+            </div>
+            <p class="label-text mb-2">MD ANiK SHEiKH // PROMPT TERMINAL</p>
+            <p class="text-[9px] text-zinc-300 tracking-[0.2em] uppercase">© 2026 Limited Edition Visuals</p>
         </footer>
     </div>
 
@@ -129,7 +109,7 @@
                         document.getElementById('welcome-screen').style.opacity = '0';
                         document.getElementById('main-content').style.opacity = '1';
                         setTimeout(() => document.getElementById('welcome-screen').remove(), 1000);
-                    }, 1500);
+                    }, 1200);
                 }
             });
         }
@@ -145,33 +125,32 @@
                 if(!item.Title) return '';
 
                 return `
-                <div class="tech-card">
+                <div class="tech-card group">
                     <div class="img-container">
                         <img src="${img}" alt="${title}" referrerpolicy="no-referrer">
                     </div>
-                    <div class="pt-10 pb-4">
-                        <div class="flex justify-between mb-4">
-                            <span class="label-text">${cat}</span>
-                            <span class="label-text">0${i+1}</span>
+                    <div class="pt-10">
+                        <div class="flex justify-between mb-4 items-center">
+                            <span class="label-text text-zinc-400">${cat}</span>
+                            <span class="label-text">INDEX_0${i+1}</span>
                         </div>
-                        <h3 class="text-3xl editorial-title font-semibold mb-6 tracking-wide">${title}</h3>
+                        <h3 class="text-3xl editorial-title font-semibold mb-6 tracking-wide group-hover:tracking-wider transition-all duration-500">${title}</h3>
                         <div class="prompt-area">
-                            <span class="copy-trigger" onclick="copyPrompt(this, \`${prompt.replace(/`/g, '\\`').replace(/'/g, "\\'")}\`)">Copy Data</span>
-                            <p class="text-[11px] leading-relaxed text-zinc-500 font-light italic">"${prompt}"</p>
+                            <i class="fa-regular fa-copy copy-icon-btn" onclick="copyPrompt(this, \`${prompt.replace(/`/g, '\\`').replace(/'/g, "\\'")}\`)"></i>
+                            <p class="text-[11px] leading-relaxed text-zinc-400 font-light italic pr-6">"${prompt}"</p>
                         </div>
                     </div>
                 </div>`;
             }).join('');
         }
 
-        function copyPrompt(el, text) {
+        function copyPrompt(btn, text) {
             navigator.clipboard.writeText(text).then(() => {
-                const original = el.innerText;
-                el.innerText = "Copied ✓";
-                el.style.color = "#000";
+                btn.classList.remove('fa-regular', 'fa-copy');
+                btn.classList.add('fa-solid', 'fa-check', 'copied');
                 setTimeout(() => {
-                    el.innerText = original;
-                    el.style.color = "#aaa";
+                    btn.classList.remove('fa-solid', 'fa-check', 'copied');
+                    btn.classList.add('fa-regular', 'fa-copy');
                 }, 2000);
             });
         }
