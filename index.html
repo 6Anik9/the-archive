@@ -3,67 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANiK | Executive Archive</title>
+    <title>ANiK | Premium Archive</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;600&family=Inter:wght@200;400;600&display=swap');
         
-        :root { 
-            --bg: #f8f8f6; 
-            --card-bg: #ffffff;
-            --accent: #111111;
-        }
-        
+        :root { --bg: #f8f8f6; --card-bg: #ffffff; --accent: #111111; }
         body { background-color: var(--bg); color: var(--accent); font-family: 'Inter', sans-serif; }
         
         #welcome-screen { position: fixed; inset: 0; background: var(--bg); z-index: 999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .loader-line { width: 0%; height: 1px; background: #000; transition: width 2s ease; }
         #main-content { opacity: 0; transition: opacity 1.5s ease; }
 
-        .tech-card { 
-            background: var(--card-bg); 
-            border: 1px solid rgba(0,0,0,0.04);
-            padding: 24px;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+        .tech-card { background: var(--card-bg); border: 1px solid rgba(0,0,0,0.04); padding: 24px; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .tech-card:hover { transform: translateY(-8px); box-shadow: 0 40px 70px rgba(0,0,0,0.05); }
         
-        .img-container { 
-            width: 100%; height: 420px; background: #f0f0ee; 
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden; position: relative;
-        }
-        .img-container img { max-width: 92%; max-height: 92%; object-fit: contain; transition: 0.8s ease; }
+        .img-container { width: 100%; height: 420px; background: #f0f0ee; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .img-container img { max-width: 92%; max-height: 92%; object-fit: contain; }
 
-        /* Copy Icon Interface */
-        .prompt-area {
-            position: relative; background: #fcfcfb;
-            padding: 25px; margin-top: 20px; border: 1px solid #f0f0ee;
-        }
-        .copy-icon-btn {
-            position: absolute; top: 15px; right: 15px;
-            font-size: 14px; color: #bbb; cursor: pointer; transition: 0.3s;
-        }
+        .prompt-area { position: relative; background: #fcfcfb; padding: 25px; margin-top: 20px; border: 1px solid #f0f0ee; min-height: 80px; }
+        
+        /* Copy Icon */
+        .copy-icon-btn { position: absolute; top: 15px; right: 15px; font-size: 16px; color: #bbb; cursor: pointer; transition: 0.3s; z-index: 10; }
         .copy-icon-btn:hover { color: #000; }
-        .copy-icon-btn.copied { color: #27ae60; }
+        .copy-icon-btn.copied { color: #27ae60 !important; }
 
         .editorial-title { font-family: 'Cormorant Garamond', serif; }
         .label-text { font-size: 10px; text-transform: uppercase; letter-spacing: 0.3em; color: #999; }
-        
-        /* Social Icons Style */
         .social-link { font-size: 18px; color: #999; transition: 0.3s; }
         .social-link:hover { color: #000; transform: translateY(-3px); }
-
-        ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-thumb { background: #000; }
     </style>
 </head>
 <body>
 
     <div id="welcome-screen">
-        <p class="label-text mb-4 tracking-[0.5em]">Establishing Access</p>
+        <p class="label-text mb-4">Establishing Access</p>
         <div class="w-40 h-[1px] bg-zinc-200"><div id="loader-bar" class="loader-line"></div></div>
     </div>
 
@@ -74,7 +50,7 @@
         </nav>
 
         <header class="py-24 text-center">
-            <h2 class="text-7xl md:text-9xl editorial-title font-light tracking-tight mb-4">The <span class="italic">Archive.</span></h2>
+            <h2 class="text-7xl md:text-9xl editorial-title font-light tracking-tight mb-4 text-zinc-900">The <span class="italic">Archive.</span></h2>
             <p class="label-text text-zinc-400 mt-6 tracking-[0.6em]">Curated Visual Intelligence</p>
         </header>
 
@@ -88,12 +64,12 @@
                 <a href="https://github.com/6anik9" target="_blank" class="social-link"><i class="fa-brands fa-github"></i></a>
             </div>
             <p class="label-text mb-2">MD ANiK SHEiKH // PROMPT TERMINAL</p>
-            <p class="text-[9px] text-zinc-300 tracking-[0.2em] uppercase">© 2026 Limited Edition Visuals</p>
+            <p class="text-[9px] text-zinc-300 tracking-[0.2em]">© 2026 LIMITED EDITION VISUALS</p>
         </footer>
     </div>
 
     <script>
-        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTpKvnBNdPxRkepgDMqxhwp-oZIiDO69lFfNXaMxPSVdgWPUuBzLQsiKEVL6ursmPGoEVzSXme5VvK/pub?gid=0&single=true&output=csv&t=" + new Date().getTime();
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTpKvnBNdPxRkepgDMqxhwp-oZIiDO69lFfNXaMxPSVdgWPUuBzLQsiKEVL6ursmPGoEVzSXme5VvK/pub?gid=0&single=true&output=csv";
 
         window.onload = () => {
             document.getElementById('loader-bar').style.width = '100%';
@@ -119,7 +95,7 @@
             grid.innerHTML = data.map((item, i) => {
                 const title = item.Title || "Untitled_Work";
                 const img = item.ImageURL || "https://via.placeholder.com/800";
-                const prompt = item.Prompt || "";
+                const prompt = item.Prompt || "No prompt available.";
                 const cat = item.Category || "Archive";
 
                 if(!item.Title) return '';
@@ -134,25 +110,35 @@
                             <span class="label-text text-zinc-400">${cat}</span>
                             <span class="label-text">INDEX_0${i+1}</span>
                         </div>
-                        <h3 class="text-3xl editorial-title font-semibold mb-6 tracking-wide group-hover:tracking-wider transition-all duration-500">${title}</h3>
+                        <h3 class="text-3xl editorial-title font-semibold mb-6 tracking-wide">${title}</h3>
                         <div class="prompt-area">
-                            <i class="fa-regular fa-copy copy-icon-btn" onclick="copyPrompt(this, \`${prompt.replace(/`/g, '\\`').replace(/'/g, "\\'")}\`)"></i>
-                            <p class="text-[11px] leading-relaxed text-zinc-400 font-light italic pr-6">"${prompt}"</p>
+                            <i class="fa-regular fa-copy copy-icon-btn" onclick="fallbackCopyTextToClipboard('${prompt.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', this)"></i>
+                            <p class="text-[11px] leading-relaxed text-zinc-400 font-light italic pr-8">"${prompt}"</p>
                         </div>
                     </div>
                 </div>`;
             }).join('');
         }
 
-        function copyPrompt(btn, text) {
-            navigator.clipboard.writeText(text).then(() => {
-                btn.classList.remove('fa-regular', 'fa-copy');
-                btn.classList.add('fa-solid', 'fa-check', 'copied');
+        // কপি করার সবচেয়ে নির্ভরযোগ্য মেথড
+        function fallbackCopyTextToClipboard(text, icon) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                // সাকসেস হলে আইকন চেঞ্জ হবে
+                icon.classList.remove('fa-regular', 'fa-copy');
+                icon.classList.add('fa-solid', 'fa-check', 'copied');
                 setTimeout(() => {
-                    btn.classList.remove('fa-solid', 'fa-check', 'copied');
-                    btn.classList.add('fa-regular', 'fa-copy');
+                    icon.classList.remove('fa-solid', 'fa-check', 'copied');
+                    icon.classList.add('fa-regular', 'fa-copy');
                 }, 2000);
-            });
+            } catch (err) {
+                console.error('Copy failed', err);
+            }
+            document.body.removeChild(textArea);
         }
     </script>
 </body>
