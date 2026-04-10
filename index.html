@@ -17,28 +17,35 @@
         .loader-line { width: 0%; height: 1px; background: #000; transition: width 2s ease; }
         #main-content { opacity: 0; transition: opacity 1.5s ease; }
 
-        .enhance-btn { cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 6px; color: #999; }
-        .enhance-btn:hover { color: #000; }
+        .enhance-btn { cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; color: #999; font-size: 14px; }
+        .enhance-btn:hover { color: #000; transform: scale(1.1); }
 
-        /* Instruction Pop-up */
+        /* Stylish Instruction Pop-up */
         #enhance-modal {
-            position: fixed; inset: 0; background: rgba(248, 248, 246, 0.98);
+            position: fixed; inset: 0; background: rgba(248, 248, 246, 0.99);
             z-index: 2000; display: none; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         #enhance-modal.active { display: flex; opacity: 1; }
 
-        .modal-box { text-align: center; width: 100%; max-width: 450px; padding: 40px; }
-        .instruction-step { font-size: 10px; text-transform: uppercase; letter-spacing: 0.25em; color: #888; margin-bottom: 15px; opacity: 0; transform: translateY(10px); animation: fadeInUp 0.5s forwards; }
+        .modal-box { text-align: center; width: 100%; max-width: 500px; padding: 40px; }
+        .instruction-step { font-size: 10px; text-transform: uppercase; letter-spacing: 0.3em; color: #aaa; margin-bottom: 20px; opacity: 0; transform: translateY(15px); }
         
+        .active .instruction-step { animation: fadeInUp 0.6s forwards; }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
+        /* Ultra Stylish Boom Animation */
         #boom-text { 
-            font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-style: italic;
-            display: none; opacity: 0; transform: scale(0.9); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-style: italic;
+            display: none; opacity: 0; letter-spacing: -0.05em;
+            transform: scale(1.1) translateY(10px); filter: blur(10px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
             color: #111;
         }
-        #boom-text.show { display: block; opacity: 1; transform: scale(1); }
+        #boom-text.show { 
+            display: block; opacity: 1; transform: scale(1) translateY(0); 
+            filter: blur(0px); letter-spacing: 0.02em;
+        }
 
         .tech-card { background: var(--card-bg); border: 1px solid rgba(0,0,0,0.04); padding: 24px; transition: 0.5s; }
         .img-container { width: 100%; height: 420px; background: #f0f0ee; display: flex; align-items: center; justify-content: center; overflow: hidden; }
@@ -61,11 +68,11 @@
     <div id="enhance-modal">
         <div class="modal-box">
             <div id="instruction-list">
-                <p class="label-text mb-10 text-zinc-400">Sequence Protocol</p>
-                <div class="instruction-step" style="animation-delay: 0.2s;">1. Open Nano Banana</div>
-                <div class="instruction-step" style="animation-delay: 0.4s;">2. Upload Low Scale Image</div>
-                <div class="instruction-step" style="animation-delay: 0.6s;">3. Use Copied Prompt</div>
-                <div class="instruction-step" style="animation-delay: 0.8s;">4. Press Go</div>
+                <p class="label-text mb-12 text-zinc-300 tracking-[0.5em]">Initialization Protocol</p>
+                <div class="instruction-step" style="animation-delay: 0.2s;">01. Open Nano Banana</div>
+                <div class="instruction-step" style="animation-delay: 0.4s;">02. Upload Low Scale Image</div>
+                <div class="instruction-step" style="animation-delay: 0.6s;">03. Inject Copied Prompt</div>
+                <div class="instruction-step" style="animation-delay: 0.8s;">04. Execute Enhancement</div>
             </div>
             <div id="boom-text">Boom! You Got Enhanced.</div>
         </div>
@@ -84,9 +91,8 @@
             </div>
             
             <div class="flex items-center gap-6">
-                <div class="enhance-btn label-text" onclick="runEnhanceSequence()">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> 
-                    <span>Enhance</span>
+                <div class="enhance-btn" onclick="runEnhanceSequence()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
                 <span class="label-text">SYS_V4.0 // ONLINE</span>
             </div>
@@ -165,18 +171,24 @@
 
                 modal.classList.add('active');
                 
+                // Show 'Boom' with stylish effect after 3.5s
                 setTimeout(() => {
-                    list.style.display = 'none';
-                    boom.classList.add('show');
+                    list.style.transition = "opacity 0.5s ease";
+                    list.style.opacity = "0";
+                    setTimeout(() => {
+                        list.style.display = "none";
+                        boom.classList.add('show');
+                    }, 500);
                 }, 3500);
 
-                // Modal closes exactly at 7 seconds
+                // Close exactly at 7s
                 setTimeout(() => {
                     modal.classList.remove('active');
                     setTimeout(() => {
                         boom.classList.remove('show');
                         list.style.display = 'block';
-                    }, 600);
+                        list.style.opacity = '1';
+                    }, 800);
                 }, 7000);
             });
         }
